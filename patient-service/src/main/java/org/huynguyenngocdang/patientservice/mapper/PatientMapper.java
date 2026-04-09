@@ -16,5 +16,5 @@ public interface PatientMapper {
     Patient toPatient(PatientRequestDto patientRequestDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updatePatient(Patient patient, @MappingTarget PatientRequestDto patientRequestDto);
+    void updatePatient(@MappingTarget Patient patient,  PatientRequestDto patientRequestDto);
 }

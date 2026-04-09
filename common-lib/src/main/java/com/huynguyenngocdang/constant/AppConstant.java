@@ -12,6 +12,7 @@ public class AppConstant {
     public static final String API_ERROR_CODE = "500";
     public static final String API_ERROR_MESSAGE = "Error";
 
-    public static final String VALIDATION_ERROR = "Validation error";
     public static final String CLIENT_SIDE_ERROR_CODE = "400";
+    public static final String VALIDATION_ERROR_MESSAGE = "Validation error";
+    public static final String REQUEST_BODY_MISSING_ERROR_MESSAGE = "Request body is missing or malformed";
 }
