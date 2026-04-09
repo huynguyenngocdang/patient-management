@@ -2,6 +2,7 @@ package org.huynguyenngocdang.patientservice.controller;
 
 import com.huynguyenngocdang.common.PageResponse;
 import com.huynguyenngocdang.common.ResponseApi;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.huynguyenngocdang.patientservice.dto.PatientRequestDto;
 import org.huynguyenngocdang.patientservice.dto.PatientResponseDto;
@@ -38,12 +39,12 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseApi<PatientResponseDto>> createPatient(@RequestBody PatientRequestDto request) {
+    public ResponseEntity<ResponseApi<PatientResponseDto>> createPatient(@Valid @RequestBody PatientRequestDto request) {
         return ResponseEntity.ok(ResponseApi.success(patientService.createPatient(request)));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ResponseApi<PatientResponseDto>> updatePatient(@PathVariable String id, @RequestBody PatientRequestDto request) {
+    public ResponseEntity<ResponseApi<PatientResponseDto>> updatePatient(@PathVariable String id, @Valid @RequestBody PatientRequestDto request) {
         return ResponseEntity.ok(ResponseApi.success(patientService.updatePatient(id, request)));
     }
 

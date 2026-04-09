@@ -1,4 +1,3 @@
--- Ensure the 'patient' table exists
 CREATE TABLE IF NOT EXISTS patient
 (
     id              UUID PRIMARY KEY,
@@ -8,8 +7,6 @@ CREATE TABLE IF NOT EXISTS patient
     date_of_birth   DATE                NOT NULL,
     registered_date DATE                NOT NULL
 );
-
-CREATE INDEX patient_email_idx ON patient (email);
 
 -- Insert well-known UUIDs for specific patients
 INSERT INTO patient (id, name, email, address, date_of_birth, registered_date)

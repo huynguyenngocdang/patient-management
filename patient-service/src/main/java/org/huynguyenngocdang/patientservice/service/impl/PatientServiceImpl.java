@@ -1,6 +1,7 @@
 package org.huynguyenngocdang.patientservice.service.impl;
 
 import com.huynguyenngocdang.common.PageResponse;
+import com.huynguyenngocdang.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.huynguyenngocdang.patientservice.dto.PatientRequestDto;
 import org.huynguyenngocdang.patientservice.dto.PatientResponseDto;
@@ -12,6 +13,9 @@ import org.huynguyenngocdang.patientservice.service.PatientService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.huynguyenngocdang.patientservice.constant.ExceptionConstant.PATIENT_EMAIL_DUPLICATED_CODE;
@@ -37,21 +41,22 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientResponseDto createPatient(PatientRequestDto request) {
-        validateEmailExist(request.getEmail());
+        validateEmailExist(request.getEmail(), null);
         Patient patient = patientMapper.toPatient(request);
+        if (patient.getRegisteredDate() == null) patient.setRegisteredDate(LocalDate.now());
         return patientMapper.toPatientResponseDto(patientRepository.save(patient));
     }
 
     @Override
     public PatientResponseDto updatePatient(String id, PatientRequestDto request) {
-        validateEmailExist(request.getEmail());
+        validateEmailExist(request.getEmail(), UUID.fromString(id));
         Patient patient = patientRepository.findById(UUID.fromString(id)).orElseThrow(() -> new PatientException(PATIENT_NOT_FOUND_CODE, PATIENT_NOT_FOUND_MESSAGE));
         patientMapper.updatePatient(patient, request);
         return patientMapper.toPatientResponseDto(patientRepository.save(patient));
     }
 
-    private void validateEmailExist(String email) {
-        boolean isEmailExist = patientRepository.existsByEmail(email);
+    private void validateEmailExist(String emai, UUID excludeId) {
+        boolean isEmailExist = (excludeId == null) ? patientRepository.existsByEmail(emai) : patientRepository.existsByEmailAndIdNot(emai, excludeId);
         if (isEmailExist) throw new PatientException(PATIENT_EMAIL_DUPLICATED_CODE, PATIENT_EMAIL_DUPLICATED_MESSAGE);
     }
 
@@ -60,6 +65,4 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findById(UUID.fromString(id)).orElseThrow(() -> new PatientException(PATIENT_NOT_FOUND_CODE, PATIENT_NOT_FOUND_MESSAGE));
         patientRepository.delete(patient);
     }
-
-
 }
