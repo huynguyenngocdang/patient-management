@@ -11,4 +11,7 @@ public class AppConstant {
     public static final String API_SUCCESS_MESSAGE = "Success";
     public static final String API_ERROR_CODE = "500";
     public static final String API_ERROR_MESSAGE = "Error";
+
+    public static final String VALIDATION_ERROR = "Validation error";
+    public static final String CLIENT_SIDE_ERROR_CODE = "400";
 }
