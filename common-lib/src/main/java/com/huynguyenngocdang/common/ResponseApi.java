@@ -22,4 +22,12 @@ public record ResponseApi<T>(ResponseStatus status, T data, ResponseMetadata met
         ResponseMetadata metaData = ResponseMetadata.getCurrentMetadata();
         return new ResponseApi<>(status, null, metaData);
     }
+
+    public static <T> ResponseApi<T> error(String errorCode, String errorMessage, T data) {
+        String errCode = StringUtils.hasText(errorCode) ? errorCode : API_ERROR_CODE;
+        String errMessage = StringUtils.hasText(errorMessage) ? errorMessage : API_ERROR_MESSAGE;
+        ResponseStatus status = new ResponseStatus(errCode, errMessage);
+        ResponseMetadata metaData = ResponseMetadata.getCurrentMetadata();
+        return new ResponseApi<>(status, data, metaData);
+    }
 }
